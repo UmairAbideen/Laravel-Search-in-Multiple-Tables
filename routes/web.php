@@ -14,10 +14,5 @@ Route::post('/add-user', [UserCarController::class, 'storeUser'])->name('add.use
 Route::get('/add-car', [UserCarController::class, 'showAddCarForm'])->name('add.car.form');
 Route::post('/add-car', [UserCarController::class, 'storeCar'])->name('add.car');
 
-// Fetch users based on selected group
-Route::get('/fetch-users/{groupId}', [UserCarController::class, 'fetchUsers'])->name('fetch.users');
-
-
-
 Route::get('/add-group', [UserCarController::class, 'showAddGroupForm'])->name('add.group.form');
 Route::post('/add-group', [UserCarController::class, 'storeGroup'])->name('add.group');

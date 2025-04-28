@@ -12,23 +12,26 @@ class UserCarController extends Controller
 
     public function index(Request $request)
     {
-        // Fetch all groups
+        // Get all groups for the dropdown
         $groups = Group::all();
 
-        // Fetch users based on the selected group
-        $users = User::when($request->has('group_id') && $request->group_id, function ($query) use ($request) {
-            return $query->where('group_id', $request->group_id);
-        })->get();
+        // Get users filtered by group if selected
+        $users = User::query();
+        if ($request->filled('group_id')) {
+            $users->where('group_id', $request->group_id);
+        }
+        $users = $users->get();
 
-        // If a user is selected, fetch that user's details along with their cars
+        // Get selected user and their cars if a user is selected
         $selectedUser = null;
-        if ($request->has('user_id') && $request->user_id) {
+        if ($request->filled('user_id')) {
             $selectedUser = User::with('cars')->find($request->user_id);
         }
 
-        // Return the view with users, selectedUser, and groups
-        return view('index', compact('users', 'selectedUser', 'groups'));
+        // Return the view with data
+        return view('index', compact('groups', 'users', 'selectedUser'));
     }
+
 
 
     // Method to fetch users by selected group
@@ -134,13 +137,4 @@ class UserCarController extends Controller
         return redirect()->route('home')->with('success', 'Car added successfully.');
     }
 
-    // AJAX method to fetch users by group
-    public function fetchUsers($groupId)
-    {
-        // Fetch users based on the group
-        $users = User::where('group_id', $groupId)->get();
-
-        // Return users as a JSON response
-        return response()->json(['users' => $users]);
-    }
 }
