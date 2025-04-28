@@ -44,10 +44,3 @@ This Laravel 10 project demonstrates a **dynamic multi-table search** where user
 2. **AJAX dropdown** loads users based on selected group without page reload.
 3. **Search form** filters users by name or group.
 4. **Blade views** show users and their related cars in a table layout.
-
----
-
-## 📌 Route Example
-
-```php
-Route::get('/search', [UserCarController::class, 'index'])->name('search');
